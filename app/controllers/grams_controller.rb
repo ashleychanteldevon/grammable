@@ -15,6 +15,12 @@ class GramsController < ApplicationController
     end
   end
 
+  def edit
+    @gram = Gram.find_by_id(params[:id])
+    return render_not_found if @gram.blank?
+    return render_not_found(:forbidden) if @gram.user != current_user
+  end
+
   def create
     @gram = current_user.grams.create(gram_params)
     if @gram.valid?
